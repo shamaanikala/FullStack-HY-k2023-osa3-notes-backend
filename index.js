@@ -48,10 +48,10 @@ let notes = [
 
   app.use(requestLogger) // json jälkeen!
 
-  app.get('/', (req,res) => {
-    res.send('<h1>Hello Earthair</h1>')
-    console.log('GET / received',Date())
-  })
+  // app.get('/', (req,res) => {
+  //   res.send('<h1>Hello Earthair</h1>')
+  //   console.log('GET / received',Date())
+  // })
 
   app.get('/api/notes', (req,res) => {
     res.json(notes)
