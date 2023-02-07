@@ -3,12 +3,15 @@ const express = require('express')
 const app = express()
 
 app.use(express.json())
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({error: 'unknown endpoint'})
+  }
 
+// alemmas
+// const cors = require('cors')
+// app.use(cors())
 
-const cors = require('cors')
-app.use(cors())
-
-app.use(express.static('build'))
+// app.use(express.static('build'))
 
 
 let notes = [
@@ -48,10 +51,15 @@ let notes = [
 
   app.use(requestLogger) // json jälkeen!
 
-  // app.get('/', (req,res) => {
-  //   res.send('<h1>Hello Earthair</h1>')
-  //   console.log('GET / received',Date())
-  // })
+  const cors = require('cors')
+  app.use(cors())
+
+  app.use(express.static('build'))
+
+  app.get('/', (req,res) => {
+    res.send('<h1>Hello Earthair</h1>')
+    console.log('GET / received',Date())
+  })
 
   app.get('/api/notes', (req,res) => {
     res.json(notes)
@@ -108,10 +116,12 @@ let notes = [
   })
     
   // middleware routejen jälkeen
-  const unknownEndpoint = (request, response) => {
-    response.status(404).send({error: 'unknown endpoint'})
-  }
+  // näin ei ole https://github.com/fullstack-hy2020/part3-notes-backend/blob/part3-3/index.js ??
+  // const unknownEndpoint = (request, response) => {
+  //   response.status(404).send({error: 'unknown endpoint'})
+  // }
 
+  // tämä vain tänne ja tuo ylös
   app.use(unknownEndpoint)
   
 
