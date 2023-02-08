@@ -6,8 +6,5 @@
 # exit on error
 set -o errexit
 
-echo "Running npm install"
 npm install
-echo "npm install finished"
-#echo "Running npm build"
-#npm build
+npm build
