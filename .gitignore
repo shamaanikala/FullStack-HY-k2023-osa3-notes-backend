@@ -24,3 +24,5 @@ yarn-error.log*
 
 *.rest
 *.bak*
+
+.env
