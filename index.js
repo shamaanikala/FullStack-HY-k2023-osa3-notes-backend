@@ -1,4 +1,5 @@
 require('dotenv').config()
+const mongoose = require('mongoose')
 const express = require('express')
 const app = express()
 const Note = require('./models/note')
@@ -53,18 +54,30 @@ let notes = [
   })
 
   app.get('/api/notes/:id', (request, response) => {
-    Note.findById(request.params.id).then(note => {
-      response.json(note)
+    Note.findById(request.params.id)
+    .then(note => {
+      if (note) {
+        response.json(note)
+      } else {
+        //console.log('Palvelin sanoo: 404 :(')
+        response.status(404).end()
+      }
     })
-    // const id = Number(request.params.id)
-    // const note = notes.find(note => note.id === id)
-    // //console.log(note.id,typeof note.id, id, typeof id, note.id === id)
-    // //console.log(id, note)
-    // if (note) {
-    //   response.json(note)
-    // } else {
-    //   response.status(404).end()
-    // }
+    .catch(error => {
+      //console.log(error)
+      //const syy = new mongoose.Error(error.message)
+      //console.log(syy)
+      //console.log(syy instanceof mongoose.Error.CastError )
+      //console.log(error instanceof mongoose.Error.CastError )
+      // omaa testiä
+      if (error instanceof mongoose.Error.CastError) {
+        console.log('CastError havaittu')
+        response.status(400).send({ error: 'malformatted id'})
+      }
+      else {
+      response.status(500).end()
+      }
+    })
   })
 
   app.delete('/api/notes/:id', (request, response) => {
