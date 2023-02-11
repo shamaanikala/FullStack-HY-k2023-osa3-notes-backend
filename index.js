@@ -97,6 +97,22 @@ let notes = []
       response.json(note)
     })
   })
+
+// viestin sisällön muokkaus
+app.put('/api/notes/:id', (request, response, next) => {
+  const body = request.body
+
+  const note = {
+    content: body.content,
+    important: body.important
+  }
+
+  Note.findByIdAndUpdate(request.params.id, note, { new: true})
+    .then(updatedNote => {
+      response.json(updatedNote)
+    })
+    .catch(error => next(error))
+})
     
   // middleware routejen jälkeen
   // näin ei ole https://github.com/fullstack-hy2020/part3-notes-backend/blob/part3-3/index.js ??

@@ -38,3 +38,13 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3001/api/notes/63e7790f00b8233ff11bfbe8
+
+###
+
+PUT http://localhost:3001/api/notes/63e6a55fd401277006acfb38
+Content-Type: application/json
+
+{
+    "content": "Tätä viestiä on editoitu VSC REST Clientin kautta",
+    "important": false
+}
