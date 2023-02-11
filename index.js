@@ -23,6 +23,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
@@ -77,7 +79,7 @@ let notes = []
     return maxId + 1
   }
 
-  app.post('/api/notes', (request,response) => {
+  app.post('/api/notes', (request,response, next) => {
     console.log('POST')
     console.log(request.headers)
 
@@ -94,8 +96,9 @@ let notes = []
     })
     //notes = notes.concat(note)
     note.save().then(savedNote => {
-      response.json(note)
+      response.json(savedNote)
     })
+    .catch(error => next(error))
   })
 
 // viestin sisällön muokkaus
